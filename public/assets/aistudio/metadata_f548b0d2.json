@@ -1,0 +1,6 @@
+{
+  "name": "NEXORA - Plataforma de Aprendizaje Adaptativo con IA",
+  "description": "Plataforma de aprendizaje adaptativo con lecciones interactivas, tutor IA Nexo, laboratorios, ligas y Teacher Studio.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

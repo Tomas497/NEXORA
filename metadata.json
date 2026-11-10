@@ -1,0 +1,6 @@
+{
+  "name": "NEXORA - Plataforma de Aprendizaje Adaptativo con IA",
+  "description": "Plataforma STEM adaptativa con tutor IA Nexo, prácticas nocturnas con tonalidades personalizables, sonido inmersivo, gestión de productividad y sincronización en la nube.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
