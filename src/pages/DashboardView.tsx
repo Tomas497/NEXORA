@@ -192,11 +192,17 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
       {/* Top Banner Row: Next Step Hero Card & Profile Mini Card */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-        {/* Left: "TU SIGUIENTE PASO" Big Purple Hero Card matching both mobile & desktop */}
-        <div className="lg:col-span-8 rounded-[28px] bg-gradient-to-tr from-[#6042F0] via-[#7255F7] to-[#4F33D8] text-white p-6 sm:p-8 relative overflow-hidden flex flex-col justify-between shadow-xl shadow-[#7255F7]/25">
+        {/* Left: "TU SIGUIENTE PASO" Hero Card matching both mobile & desktop */}
+        <div 
+          className="lg:col-span-8 rounded-[28px] text-white p-6 sm:p-8 relative overflow-hidden flex flex-col justify-between shadow-xl transition-all duration-500"
+          style={{
+            background: 'linear-gradient(135deg, var(--primary) 0%, rgba(var(--primary-rgb), 0.78) 55%, #15132A 100%)',
+            boxShadow: '0 20px 40px -15px var(--night-glow)'
+          }}
+        >
           {/* Subtle geometric circles */}
           <div className="absolute -top-12 -right-12 w-64 h-64 rounded-full bg-white/10 blur-2xl pointer-events-none" />
-          <div className="absolute -bottom-16 right-20 w-44 h-44 rounded-full bg-[#24B8E8]/20 blur-xl pointer-events-none" />
+          <div className="absolute -bottom-16 right-20 w-44 h-44 rounded-full bg-white/10 blur-xl pointer-events-none" />
 
           <div className="relative z-10 space-y-3 max-w-xl">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm text-[11px] font-extrabold tracking-wider uppercase text-white">
@@ -230,7 +236,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           <div className="relative z-10 flex flex-wrap items-center gap-3 pt-6">
             <button
               onClick={() => onStartLesson(isZeroState ? 'l_calc_1_1' : 'l_calc_2_1')}
-              className="px-6 py-3.5 rounded-2xl bg-white text-[#7255F7] font-extrabold text-sm shadow-md hover:bg-[#F5F4FC] hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2 cursor-pointer"
+              className="px-6 py-3.5 rounded-2xl bg-white font-extrabold text-sm shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2 cursor-pointer"
+              style={{ color: 'var(--primary)' }}
             >
               <span>{isZeroState ? 'Empezar primera lección' : 'Empezar ahora'}</span>
               <ArrowRight className="w-4 h-4" />

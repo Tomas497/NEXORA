@@ -539,6 +539,7 @@ export default function App() {
           setShowCloudModal(true);
         }}
         onQuickToggleTheme={handleQuickToggleTheme}
+        onSelectAccent={(accent) => handleUpdateTheme({ accent })}
       />
 
       {/* Main Content Area */}

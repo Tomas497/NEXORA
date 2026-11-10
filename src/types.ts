@@ -4,7 +4,19 @@ export type UserRole = 'student' | 'teacher';
 
 export type ThemeMode = 'light' | 'dark-midnight' | 'dark-amoled' | 'dark-warm';
 
-export type AccentColor = 'purple' | 'blue' | 'mint' | 'orange' | 'pink' | 'emerald';
+export type AccentColor = 
+  | 'purple' 
+  | 'violet'
+  | 'blue' 
+  | 'cyan'
+  | 'mint' 
+  | 'emerald'
+  | 'lime'
+  | 'amber'
+  | 'orange' 
+  | 'ruby'
+  | 'pink' 
+  | 'indigo';
 
 export type AmbientSoundType = 'none' | 'lofi-rain' | 'binaural-focus' | 'white-noise';
 

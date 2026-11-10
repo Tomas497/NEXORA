@@ -227,18 +227,29 @@ export const ThemeSelectorModal: React.FC<ThemeSelectorModalProps> = ({
 
             {/* Accent Colors */}
             <div className="space-y-2.5">
-              <label className="text-xs font-extrabold uppercase tracking-wider text-[var(--text-muted)] block">
-                Color de Acento & Personalización
-              </label>
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-extrabold uppercase tracking-wider text-[var(--text-muted)] block">
+                  Colores de Acento & Personalización (12 Paletas)
+                </label>
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[var(--primary-light)] text-[var(--primary)]">
+                  Activo: {themeConfig.accent.toUpperCase()}
+                </span>
+              </div>
 
-              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2.5">
+              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2.5">
                 {[
-                  { id: 'purple', name: 'Nexo', color: '#7255F7' },
-                  { id: 'blue', name: 'Eléctrico', color: '#24B8E8' },
-                  { id: 'mint', name: 'Menta', color: '#10B981' },
-                  { id: 'orange', name: 'Energía', color: '#F97316' },
-                  { id: 'pink', name: 'Creativo', color: '#EC4899' },
-                  { id: 'emerald', name: 'Esmeralda', color: '#14B8A6' },
+                  { id: 'purple', name: 'Nexo Púrpura', color: '#7255F7' },
+                  { id: 'violet', name: 'Violeta Cyber', color: '#8B5CF6' },
+                  { id: 'blue', name: 'Azul Eléctrico', color: '#24B8E8' },
+                  { id: 'cyan', name: 'Cyan Neón', color: '#06B6D4' },
+                  { id: 'mint', name: 'Menta Fresca', color: '#10B981' },
+                  { id: 'emerald', name: 'Esmeralda', color: '#059669' },
+                  { id: 'lime', name: 'Lima Volt', color: '#84CC16' },
+                  { id: 'amber', name: 'Ámbar Oro', color: '#F59E0B' },
+                  { id: 'orange', name: 'Naranja Fuego', color: '#F97316' },
+                  { id: 'ruby', name: 'Rubí Carmesí', color: '#E11D48' },
+                  { id: 'pink', name: 'Rosa Neón', color: '#EC4899' },
+                  { id: 'indigo', name: 'Índigo Estelar', color: '#6366F1' },
                 ].map((acc) => {
                   const isSelected = themeConfig.accent === acc.id;
                   return (
@@ -246,22 +257,49 @@ export const ThemeSelectorModal: React.FC<ThemeSelectorModalProps> = ({
                       key={acc.id}
                       type="button"
                       onClick={() => handleSelectAccent(acc.id as any)}
-                      className={`p-2.5 rounded-2xl border text-center transition-all cursor-pointer flex flex-col items-center gap-1.5 ${
+                      className={`p-2.5 rounded-2xl border text-center transition-all cursor-pointer flex flex-col items-center gap-1.5 relative group ${
                         isSelected
-                          ? 'border-2 border-[var(--text-main)] shadow-sm scale-105'
-                          : 'border-[var(--border-soft)] hover:bg-[var(--card-elevated)]'
+                          ? 'border-2 border-[var(--primary)] bg-[var(--primary-light)] shadow-md scale-105'
+                          : 'border-[var(--border-soft)] hover:border-[var(--border-strong)] hover:bg-[var(--card-elevated)]'
                       }`}
                     >
                       <div 
-                        className="w-7 h-7 rounded-full shadow-sm flex items-center justify-center text-white"
-                        style={{ backgroundColor: acc.color }}
+                        className="w-8 h-8 rounded-full shadow-md flex items-center justify-center text-white transition-transform group-hover:scale-110"
+                        style={{ backgroundColor: acc.color, boxShadow: isSelected ? `0 0 12px ${acc.color}` : undefined }}
                       >
-                        {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+                        {isSelected && <Check className="w-4 h-4 stroke-[3]" />}
                       </div>
-                      <span className="text-[11px] font-bold">{acc.name}</span>
+                      <span className={`text-[11px] font-bold ${isSelected ? 'text-[var(--primary)]' : 'text-[var(--text-main)]'}`}>
+                        {acc.name}
+                      </span>
                     </button>
                   );
                 })}
+              </div>
+
+              {/* Live Preview Card */}
+              <div className="p-3.5 rounded-2xl border border-[var(--border-soft)] bg-[var(--card-elevated)] flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5">
+                  <div 
+                    className="w-4 h-4 rounded-full animate-pulse"
+                    style={{ backgroundColor: 'var(--primary)' }}
+                  />
+                  <span className="text-xs font-bold text-[var(--text-main)]">
+                    Muestra visual con color activo:
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="px-3 py-1 rounded-xl text-xs font-extrabold bg-[var(--primary-light)] text-[var(--primary)]">
+                    Insignia
+                  </span>
+                  <button 
+                    type="button"
+                    className="px-3 py-1 rounded-xl text-xs font-extrabold text-white shadow-sm"
+                    style={{ backgroundColor: 'var(--primary)' }}
+                  >
+                    Botón de Acción
+                  </button>
+                </div>
               </div>
             </div>
 

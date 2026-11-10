@@ -219,8 +219,8 @@ export const TasksView: React.FC<TasksViewProps> = ({
                   cy="50"
                   r="42"
                   fill="none"
-                  stroke="currentColor"
-                  className="text-[#7255F7] transition-all duration-500 ease-out"
+                  stroke="var(--primary)"
+                  className="transition-all duration-500 ease-out"
                   strokeWidth="6"
                   strokeLinecap="round"
                   strokeDasharray="264"
@@ -243,10 +243,11 @@ export const TasksView: React.FC<TasksViewProps> = ({
             <div className="flex items-center gap-3 mt-4">
               <button
                 onClick={toggleTimer}
+                style={!isRunning ? { backgroundColor: 'var(--primary)', boxShadow: '0 10px 25px -5px var(--night-glow)' } : undefined}
                 className={`px-8 py-3.5 rounded-2xl font-extrabold text-sm shadow-md transition-all cursor-pointer flex items-center gap-2 ${
                   isRunning
                     ? 'bg-amber-500 hover:bg-amber-600 text-white shadow-amber-500/25'
-                    : 'bg-[#7255F7] hover:bg-[#5D3DE6] text-white shadow-[#7255F7]/30 hover:scale-105 active:scale-95'
+                    : 'text-white hover:scale-105 active:scale-95'
                 }`}
               >
                 {isRunning ? (
@@ -482,8 +483,15 @@ export const TasksView: React.FC<TasksViewProps> = ({
                     )}
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-3 text-xs text-[var(--text-muted)]">
-                    <span className="font-semibold text-[#7255F7]">{task.subject}</span>
+                  <div className="flex flex-wrap items-center gap-2.5 text-xs text-[var(--text-muted)] pt-0.5">
+                    <span className={`px-2 py-0.5 rounded-md border text-[11px] font-extrabold ${
+                      task.subject.toLowerCase().includes('cálculo') ? 'bg-purple-500/15 text-purple-600 dark:text-purple-300 border-purple-500/25' :
+                      task.subject.toLowerCase().includes('algoritmo') || task.subject.toLowerCase().includes('código') ? 'bg-cyan-500/15 text-cyan-600 dark:text-cyan-300 border-cyan-500/25' :
+                      task.subject.toLowerCase().includes('física') ? 'bg-amber-500/15 text-amber-600 dark:text-amber-300 border-amber-500/25' :
+                      'bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 border-emerald-500/25'
+                    }`}>
+                      {task.subject}
+                    </span>
                     <span>• {task.estimatedMinutes} min</span>
                     <span>• {task.dueDate}</span>
                     {task.notes && <span className="hidden md:inline italic">• {task.notes}</span>}

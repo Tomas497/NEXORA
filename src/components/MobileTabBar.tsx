@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, Sparkles, User, FlaskConical, Target, Clock } from 'lucide-react';
+import { Home, Sparkles, User, FlaskConical, Clock } from 'lucide-react';
 import { Language } from '../types';
 import { getTranslation } from '../i18n';
 import { sound } from '../utils/soundEngine';
@@ -17,49 +17,93 @@ export const MobileTabBar: React.FC<MobileTabBarProps> = ({
 }) => {
   const t = (section: string, key: string) => getTranslation(language, section, key);
 
-  const tabs = [
-    { id: 'home', label: t('nav', 'home'), icon: Home },
-    { id: 'tutor', label: t('nav', 'tutor'), icon: Sparkles },
-    { id: 'tasks', label: 'Tareas', icon: Clock },
-    { id: 'labs', label: t('nav', 'labs'), icon: FlaskConical },
-    { id: 'progress', label: 'Perfil', icon: User },
-  ];
-
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[var(--card-bg)]/95 backdrop-blur-md border-t border-[var(--border-soft)] px-2 py-1.5 flex items-center justify-around shadow-lg transition-colors">
-      {tabs.map((tab) => {
-        const active = currentTab === tab.id;
-        const Icon = tab.icon;
-        return (
-          <button
-            key={tab.id}
-            onClick={() => {
-              sound.playClick();
-              setCurrentTab(tab.id);
-            }}
-            className={`flex flex-col items-center justify-center py-1 px-3 rounded-2xl transition-all cursor-pointer ${
-              active ? 'text-[#7255F7] font-bold' : 'text-[var(--text-muted)]'
-            }`}
-          >
-            <div className={`p-1 rounded-xl transition-all ${active ? 'bg-[#ECE8FE]' : ''}`}>
-              <Icon className="w-5 h-5" />
-            </div>
-            <span className="text-[10px] mt-0.5">{tab.label}</span>
-          </button>
-        );
-      })}
-
-      {/* Floating Sparkle Action button matching screenshot */}
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[var(--card-bg)]/95 backdrop-blur-md border-t border-[var(--border-soft)] px-2 py-1 flex items-center justify-around shadow-lg transition-colors safe-area-pb">
+      {/* 1. Inicio */}
       <button
         onClick={() => {
           sound.playClick();
-          setCurrentTab('tutor');
+          setCurrentTab('home');
         }}
-        className="absolute -top-6 right-5 w-12 h-12 rounded-full bg-gradient-to-tr from-[#7255F7] to-[#24B8E8] text-white flex items-center justify-center shadow-lg shadow-[#7255F7]/40 active:scale-95 transition-transform cursor-pointer"
-        title="Abrir Tutor Nexo"
+        className={`flex-1 flex flex-col items-center justify-center py-1 transition-all cursor-pointer ${
+          currentTab === 'home' ? 'text-[var(--primary)] font-bold' : 'text-[var(--text-muted)]'
+        }`}
       >
-        <Sparkles className="w-6 h-6 fill-white" />
+        <div className={`p-1.5 rounded-xl transition-all ${currentTab === 'home' ? 'bg-[var(--primary-light)]' : ''}`}>
+          <Home className="w-5 h-5" />
+        </div>
+        <span className="text-[10px] mt-0.5 leading-none">{t('nav', 'home')}</span>
       </button>
-    </div>
+
+      {/* 2. Tareas */}
+      <button
+        onClick={() => {
+          sound.playClick();
+          setCurrentTab('tasks');
+        }}
+        className={`flex-1 flex flex-col items-center justify-center py-1 transition-all cursor-pointer ${
+          currentTab === 'tasks' ? 'text-[var(--primary)] font-bold' : 'text-[var(--text-muted)]'
+        }`}
+      >
+        <div className={`p-1.5 rounded-xl transition-all ${currentTab === 'tasks' ? 'bg-[var(--primary-light)]' : ''}`}>
+          <Clock className="w-5 h-5" />
+        </div>
+        <span className="text-[10px] mt-0.5 leading-none">Tareas</span>
+      </button>
+
+      {/* 3. Center Elevated Nexo Tutor IA Button */}
+      <div className="relative -top-3 px-1">
+        <button
+          onClick={() => {
+            sound.playClick();
+            setCurrentTab('tutor');
+          }}
+          className={`w-12 h-12 rounded-full flex items-center justify-center text-white shadow-lg transition-transform active:scale-95 cursor-pointer ${
+            currentTab === 'tutor'
+              ? 'ring-4 ring-[var(--card-bg)] scale-105'
+              : 'hover:scale-105'
+          }`}
+          style={{
+            background: 'linear-gradient(135deg, var(--primary) 0%, #24B8E8 100%)',
+            boxShadow: '0 8px 20px -4px var(--night-glow)',
+          }}
+          title="Tutor Nexo IA"
+        >
+          <Sparkles className="w-6 h-6 fill-white" />
+        </button>
+      </div>
+
+      {/* 4. Laboratorios */}
+      <button
+        onClick={() => {
+          sound.playClick();
+          setCurrentTab('labs');
+        }}
+        className={`flex-1 flex flex-col items-center justify-center py-1 transition-all cursor-pointer ${
+          currentTab === 'labs' ? 'text-[var(--primary)] font-bold' : 'text-[var(--text-muted)]'
+        }`}
+      >
+        <div className={`p-1.5 rounded-xl transition-all ${currentTab === 'labs' ? 'bg-[var(--primary-light)]' : ''}`}>
+          <FlaskConical className="w-5 h-5" />
+        </div>
+        <span className="text-[10px] mt-0.5 leading-none">{t('nav', 'labs')}</span>
+      </button>
+
+      {/* 5. Perfil / Mapa */}
+      <button
+        onClick={() => {
+          sound.playClick();
+          setCurrentTab('progress');
+        }}
+        className={`flex-1 flex flex-col items-center justify-center py-1 transition-all cursor-pointer ${
+          currentTab === 'progress' ? 'text-[var(--primary)] font-bold' : 'text-[var(--text-muted)]'
+        }`}
+      >
+        <div className={`p-1.5 rounded-xl transition-all ${currentTab === 'progress' ? 'bg-[var(--primary-light)]' : ''}`}>
+          <User className="w-5 h-5" />
+        </div>
+        <span className="text-[10px] mt-0.5 leading-none">Perfil</span>
+      </button>
+    </nav>
   );
 };

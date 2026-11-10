@@ -61,36 +61,95 @@
     --night-glow: rgba(245, 158, 11, 0.35);
   }
 
-  /* Accent Color Overrides */
-  body[data-accent="blue"] {
+  /* 12 Vibrant Accent Color Palettes */
+  body[data-accent="purple"], html[data-accent="purple"] {
+    --primary: #7255f7;
+    --primary-hover: #5d3de6;
+    --primary-light: #ece8fe;
+    --primary-rgb: 114, 85, 247;
+    --night-glow: rgba(114, 85, 247, 0.4);
+  }
+  body[data-accent="violet"], html[data-accent="violet"] {
+    --primary: #8b5cf6;
+    --primary-hover: #7c3aed;
+    --primary-light: #ede9fe;
+    --primary-rgb: 139, 92, 246;
+    --night-glow: rgba(139, 92, 246, 0.45);
+  }
+  body[data-accent="blue"], html[data-accent="blue"] {
     --primary: #24b8e8;
     --primary-hover: #0ea5e9;
     --primary-light: #e0f2fe;
     --primary-rgb: 36, 184, 232;
+    --night-glow: rgba(36, 184, 232, 0.45);
   }
-  body[data-accent="mint"] {
+  body[data-accent="cyan"], html[data-accent="cyan"] {
+    --primary: #06b6d4;
+    --primary-hover: #0891b2;
+    --primary-light: #cffafe;
+    --primary-rgb: 6, 182, 212;
+    --night-glow: rgba(6, 182, 212, 0.45);
+  }
+  body[data-accent="mint"], html[data-accent="mint"] {
     --primary: #10b981;
     --primary-hover: #059669;
     --primary-light: #d1fae5;
     --primary-rgb: 16, 185, 129;
+    --night-glow: rgba(16, 185, 129, 0.45);
   }
-  body[data-accent="orange"] {
+  body[data-accent="emerald"], html[data-accent="emerald"] {
+    --primary: #059669;
+    --primary-hover: #047857;
+    --primary-light: #d1fae5;
+    --primary-rgb: 5, 150, 105;
+    --night-glow: rgba(5, 150, 105, 0.45);
+  }
+  body[data-accent="lime"], html[data-accent="lime"] {
+    --primary: #84cc16;
+    --primary-hover: #65a30d;
+    --primary-light: #ecfccb;
+    --primary-rgb: 132, 204, 22;
+    --night-glow: rgba(132, 204, 22, 0.45);
+  }
+  body[data-accent="amber"], html[data-accent="amber"] {
+    --primary: #f59e0b;
+    --primary-hover: #d97706;
+    --primary-light: #fef3c7;
+    --primary-rgb: 245, 158, 11;
+    --night-glow: rgba(245, 158, 11, 0.45);
+  }
+  body[data-accent="orange"], html[data-accent="orange"] {
     --primary: #f97316;
     --primary-hover: #ea580c;
     --primary-light: #ffedd5;
     --primary-rgb: 249, 115, 22;
+    --night-glow: rgba(249, 115, 22, 0.45);
   }
-  body[data-accent="pink"] {
+  body[data-accent="ruby"], html[data-accent="ruby"] {
+    --primary: #e11d48;
+    --primary-hover: #be123c;
+    --primary-light: #ffe4e6;
+    --primary-rgb: 225, 29, 72;
+    --night-glow: rgba(225, 29, 72, 0.45);
+  }
+  body[data-accent="pink"], html[data-accent="pink"] {
     --primary: #ec4899;
     --primary-hover: #db2777;
     --primary-light: #fce7f3;
     --primary-rgb: 236, 72, 153;
+    --night-glow: rgba(236, 72, 153, 0.45);
   }
-  body[data-accent="emerald"] {
-    --primary: #14b8a6;
-    --primary-hover: #0d9488;
-    --primary-light: #ccfbf1;
-    --primary-rgb: 20, 184, 166;
+  body[data-accent="indigo"], html[data-accent="indigo"] {
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --primary-light: #e0e7ff;
+    --primary-rgb: 99, 102, 241;
+    --night-glow: rgba(99, 102, 241, 0.45);
+  }
+
+  /* Dark mode variants for primary-light to preserve dark contrast */
+  body.dark {
+    --primary-light: rgba(var(--primary-rgb), 0.22);
   }
 
   /* High contrast mode for night formula readability */
