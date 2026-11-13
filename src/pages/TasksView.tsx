@@ -38,6 +38,7 @@ interface TasksViewProps {
   onDeleteTask: (taskId: string) => Promise<void>;
   onCompletePomodoro: (minutes: number) => Promise<void>;
   onOpenThemeModal: () => void;
+  onGenerateDynamicTasks?: () => Promise<void>;
 }
 
 export const TasksView: React.FC<TasksViewProps> = ({
@@ -50,6 +51,7 @@ export const TasksView: React.FC<TasksViewProps> = ({
   onDeleteTask,
   onCompletePomodoro,
   onOpenThemeModal,
+  onGenerateDynamicTasks,
 }) => {
   const [filter, setFilter] = useState<'all' | 'night' | 'high' | 'pending' | 'completed'>('all');
   const [showNewTaskModal, setShowNewTaskModal] = useState(false);
@@ -414,13 +416,28 @@ export const TasksView: React.FC<TasksViewProps> = ({
             </p>
           </div>
 
-          <button
-            onClick={() => setShowNewTaskModal(true)}
-            className="px-5 py-2.5 rounded-2xl bg-[#7255F7] hover:bg-[#5D3DE6] text-white font-extrabold text-xs shadow-md shadow-[#7255F7]/30 transition-all flex items-center justify-center gap-2 cursor-pointer self-start sm:self-auto"
-          >
-            <Plus className="w-4 h-4" />
-            <span>Crear Tarea</span>
-          </button>
+          <div className="flex items-center gap-2 self-start sm:self-auto">
+            {onGenerateDynamicTasks && (
+              <button
+                type="button"
+                onClick={() => onGenerateDynamicTasks()}
+                className="px-4 py-2.5 rounded-2xl bg-[var(--primary-light)] text-[var(--primary)] border border-[var(--primary)]/30 hover:bg-[var(--primary)] hover:text-white font-extrabold text-xs shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                title="Generar 3 tareas adaptativas automáticas con IA"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>✨ Generar Retos IA</span>
+              </button>
+            )}
+
+            <button
+              onClick={() => setShowNewTaskModal(true)}
+              className="px-4 py-2.5 rounded-2xl font-extrabold text-xs text-white shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+              style={{ backgroundColor: 'var(--primary)' }}
+            >
+              <Plus className="w-4 h-4" />
+              <span>Crear Tarea</span>
+            </button>
+          </div>
         </div>
 
         {/* Filter bar */}

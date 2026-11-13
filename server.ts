@@ -1,7 +1,9 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express, { Request, Response } from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import dotenv from 'dotenv';
 import { 
   CURRICULUM_SUBJECTS, 
   INITIAL_CONCEPTS, 
@@ -14,8 +16,7 @@ import {
   STORE_ITEMS
 } from './src/data/curriculum';
 import { UserProfile, UserProgress, CloudSnapshot, CloudSyncStatus } from './src/types';
-
-dotenv.config();
+import { generateTutorResponse, generateAdaptiveTasks } from './src/utils/tutorGenerator';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -276,89 +277,38 @@ app.post('/api/lesson/submit', (req: Request, res: Response) => {
   });
 });
 
-// Tutor Chat API with Gemini fallback
+// Tutor Chat API with Dynamic AI / Procedural Generation
 app.post('/api/tutor/chat', async (req: Request, res: Response) => {
   const { mode, message, conceptId, language } = req.body;
   const state = getActiveState();
 
-  // Structured response cards based on mode
-  if (mode === 'challenge') {
-    return res.json({
-      card: {
-        mode: 'challenge',
-        challenge: {
-          badge: 'RETO ADAPTADO',
-          xp: 50,
-          problem: 'Deriva la siguiente función compuesta aplicando la regla de la potencia y la cadena:',
-          formula: 'g(x) = (x² + 1)³',
-          options: [
-            '3(x² + 1)²',
-            '6x(x² + 1)²',
-            '3x²(x² + 1)²',
-          ],
-          correctIndex: 1,
-          explanation: '¡Excelente! Derivada exterior: 3(x² + 1)². Derivada interior: 2x. Multiplicando: 6x(x² + 1)².',
-        },
-      },
+  try {
+    const result = await generateTutorResponse({
+      mode: mode || 'explain',
+      message,
+      conceptId: conceptId || 'c_regla_cadena',
+      language: language || state.user.language || 'es',
     });
+    return res.json(result);
+  } catch (err) {
+    console.error('Error in tutor chat handler:', err);
+    return res.status(500).json({ error: 'Error generating tutor response' });
   }
+});
 
-  if (mode === 'analyze_error') {
-    return res.json({
-      card: {
-        mode: 'analyze_error',
-        errorAnalysis: {
-          codeOrMath: [
-            'Línea 1: u = 3x² + 1, f(u) = u⁴',
-            'Línea 2: f\'(x) = 4(3x² + 1)³  <-- ERROR: faltó u\'',
-            'Línea 3: f\'(x) = 4(3x² + 1)³ · (6x) = 24x(3x² + 1)³ [Correcto]'
-          ],
-          errorLineIndex: 1,
-          conceptErrorName: 'Omisión de la derivada interior en funciones polinómicas',
-          correctionGuide: [
-            '1. Identifica siempre u(x) y calcula su derivada u\'(x) por separado.',
-            '2. Multiplica la derivada de la capa exterior f\'(u) por u\'(x).',
-            '3. Simplifica los coeficientes numéricos.'
-          ],
-        },
-      },
-    });
-  }
+// Dynamic Task Generation Endpoint
+app.post('/api/tasks/generate-dynamic', (req: Request, res: Response) => {
+  const state = getActiveState();
+  const dynamicTasks = generateAdaptiveTasks(state.concepts);
+  
+  // Add generated dynamic tasks to front of list
+  state.tasks = [...dynamicTasks, ...state.tasks];
+  state.cloudSync.lastSyncedAt = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
-  if (mode === 'test_level') {
-    return res.json({
-      card: {
-        mode: 'challenge',
-        challenge: {
-          badge: 'DIAGNÓSTICO RÁPIDO',
-          xp: 40,
-          problem: '¿Cuál es la derivada de h(x) = sin(4x)?',
-          formula: 'h(x) = sin(4x)',
-          options: [
-            'cos(4x)',
-            '4 · cos(4x)',
-            '-4 · cos(4x)',
-          ],
-          correctIndex: 1,
-          explanation: '¡Correcto! Exterior: d/du(sin u) = cos u. Interior: d/dx(4x) = 4. Multiplicando: 4·cos(4x).',
-        },
-      },
-    });
-  }
-
-  // Default: explain mode
-  return res.json({
-    card: {
-      mode: 'explain',
-      title: 'La regla de la cadena: el efecto dominó de las funciones',
-      analogy: 'Imagina engranajes conectados: si el engranaje interior gira a cierta velocidad y el exterior a otra, la velocidad total es el producto de ambos ritmos.',
-      steps: [
-        'Paso 1: Identifica la función exterior f(u) y la interior u(x).',
-        'Paso 2: Deriva la función exterior respecto a su argumento u: f\'(u).',
-        'Paso 3: Deriva la función interior u\'(x).',
-        'Paso 4: Multiplica f\'(u) por u\'(x).'
-      ],
-    },
+  res.json({
+    ok: true,
+    tasks: state.tasks,
+    addedTasks: dynamicTasks,
   });
 });
 

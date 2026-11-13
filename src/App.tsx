@@ -305,6 +305,27 @@ export default function App() {
     }
   };
 
+  const handleGenerateDynamicTasks = async () => {
+    try {
+      sound.playClick();
+      const res = await fetch('/api/tasks/generate-dynamic', { method: 'POST' });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.tasks) setTasks(data.tasks);
+        if (data.cloudSync) setCloudSync(data.cloudSync);
+        sound.playLevelUp();
+        confetti({
+          particleCount: 75,
+          spread: 80,
+          origin: { y: 0.6 },
+          colors: ['#7255F7', '#24B8E8', '#19C6A3', '#EC4899'],
+        });
+      }
+    } catch (err) {
+      console.error('Error generating dynamic tasks:', err);
+    }
+  };
+
   // Complete Pomodoro Session
   const handleCompletePomodoro = async (minutes: number) => {
     try {
@@ -568,6 +589,7 @@ export default function App() {
             onToggleTask={handleToggleTask}
             onCreateTask={handleCreateTask}
             onDeleteTask={handleDeleteTask}
+            onGenerateDynamicTasks={handleGenerateDynamicTasks}
             onCompletePomodoro={handleCompletePomodoro}
             onOpenThemeModal={() => setShowThemeModal(true)}
           />
@@ -581,6 +603,7 @@ export default function App() {
             language={language}
             onOpenLabs={handleOpenLabs}
             onOpenMap={handleOpenMap}
+            onAwardXP={handleAwardXP}
             onBack={() => setCurrentTab('home')}
           />
         )}
